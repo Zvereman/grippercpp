@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>devices/GripperPage.qml</file>
+        <file>common/GText.qml</file>
+        <file>common/ScopeView.qml</file>
+        <file>common/InfoPopup.qml</file>
+    </qresource>
+</RCC>
