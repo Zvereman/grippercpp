@@ -167,6 +167,7 @@ Page {
                     Layout.fillWidth: true
                     onClicked: {
                         gripper.setPosition(maxPositionValue)
+                        currentPosition.setValues(minPositionValue, maxPositionValue)
                     }
                 }
                 Button {
@@ -174,6 +175,8 @@ Page {
                     Layout.fillWidth: true
                     onClicked: {
                         gripper.setPosition(minPositionValue)
+                        currentPosition.setValues(minPositionValue + (maxPositionValue / 2),
+                                                  maxPositionValue / 2)
                     }
                 }
 
