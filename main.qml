@@ -7,7 +7,7 @@ import QtCharts 2.15
 import "devices"
 import "common"
 
-Item {
+Window {
     width: Screen.width * 0.3
     height: Screen.height * 0.4
     visible: true

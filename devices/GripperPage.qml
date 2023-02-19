@@ -18,7 +18,7 @@ Page {
     // Max gripper position value
     property int maxPositionValue: 1000
     // Min gripper velocity value in %
-    property int minVelocityValue: 0
+    property int minVelocityValue: 1
     // Max gripper velocity value in %
     property int maxVelocityValue: 100
 
@@ -44,7 +44,6 @@ Page {
 
         ColumnLayout {
             Layout.fillHeight: true
-            //Layout.preferredWidth: parent.width * 0.3
             Layout.fillWidth: true
 
             GText {
@@ -111,12 +110,14 @@ Page {
                     }
 
                     GText {
-                        text: qsTr("Set gripper velocity to: ") + currentVelocity.value.toFixed(0) + "%"
+                        text: qsTr("Set gripper velocity to: ") + gripperVelocity.value.toFixed(0) + "%"
                         Layout.fillWidth: true
                     }
 
                     Slider {
-                        id: currentVelocity
+                        id: gripperVelocity
+
+                        value: gripper.currentVelocity
 
                         from: minVelocityValue
                         to: maxVelocityValue
@@ -126,7 +127,7 @@ Page {
 
                         Layout.fillWidth: true
                         onMoved: {
-                            gripper.setVelocity(currentVelocity.value.toFixed(0))
+                            gripper.setVelocity(gripperVelocity.value.toFixed(0))
                         }
                     }
                 }
@@ -182,7 +183,6 @@ Page {
 
         ColumnLayout {
             Layout.fillHeight: true
-            //Layout.fillWidth: true
             Layout.preferredWidth: parent.width * 0.5
 
             GText {
@@ -196,25 +196,8 @@ Page {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
             }
-
         }
     }
-
-//    Timer {
-//        id: getChartInfoTimer
-//        interval: 100
-//        running: false
-//        repeat: true
-//        onTriggered: {
-//            if (items.length < 100) {
-//                items.push(gripper.currentPosition)
-//            } else {
-//                dataSource.generateData(items, items.length);
-//                dataSource.update(scopeView.series(0));
-//                items.splice(0, items.length)
-//            }
-//        }
-//    }
 
     Connections {
         target: gripper
@@ -227,6 +210,7 @@ Page {
             } else {
                 currentPosition.first.value = 0
                 currentPosition.second.value = 0
+                gripperVelocity.value = 1
             }
         }
 
@@ -238,6 +222,10 @@ Page {
                 currentPosition.setValues(tempFirst, tempSecond)
                 inited = true
             }
+        }
+
+        function onCurrentVelocityChanged(currVel) {
+            gripperVelocity.value = currVel
         }
 
         function onInfoMsg(msgText, noError) {

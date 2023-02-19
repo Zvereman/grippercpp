@@ -21,10 +21,10 @@ ChartView {
         var s = chartView.series("position");
         var valueY = gripper.currentPosition
         s.append(max, valueY)
+
         if (s.count > 11) {
             s.remove(0)
         }
-        console.log(s.count)
 
         axisX.max = max
         min = max
@@ -34,6 +34,7 @@ ChartView {
 
     ValueAxis {
         id: axisY
+        tickCount: 9
         min: minVal
         max: maxPosVal
     }

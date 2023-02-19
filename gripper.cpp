@@ -31,6 +31,14 @@ void Gripper::read()
         else
             delete reply;
     }
+
+    if (auto *reply = m_modbusClient->sendReadRequest(QModbusDataUnit(QModbusDataUnit::HoldingRegisters,
+                                                                      17, numberOfEntries), 1)) {
+        if (!reply->isFinished())
+            connect(reply, &QModbusReply::finished, this, &Gripper::getCurrentVelocity);
+        else
+            delete reply;
+    }
 }
 
 void Gripper::isDeviceConnected()
@@ -148,6 +156,11 @@ uint Gripper::currentPosition() const
     return m_currentPosition;
 }
 
+uint Gripper::currentVelocity() const
+{
+    return m_currentVelocity;
+}
+
 bool Gripper::isConnected() const
 {
     return m_isConnected;
@@ -158,6 +171,13 @@ void Gripper::setCurrentPosition(uint currentPosition)
     if (m_currentPosition != currentPosition)
         m_currentPosition = currentPosition;
     emit currentPositionChanged(currentPosition);
+}
+
+void Gripper::setCurrentVelocity(uint currentVelocity)
+{
+    if (m_currentVelocity != currentVelocity)
+        m_currentVelocity = currentVelocity;
+    emit currentVelocityChanged(currentVelocity);
 }
 
 void Gripper::setIsConnected(bool isConnected)
@@ -180,6 +200,37 @@ void Gripper::getCurrentPosition()
         for (int i = 0, total = int(unit.valueCount()); i < total; ++i) {
             entry = QString::number(unit.value(i), 16);
             setCurrentPosition(unit.value(i));
+        }
+    } else if (reply->error() == QModbusDevice::ProtocolError) {
+        // ERROR PROTOCOL
+        entry = tr("Read response error: %1 (Mobus exception: 0x%2)").
+                arg(reply->errorString()).
+                arg(reply->rawResult().exceptionCode(), -1, 16);
+        emit infoMsg(entry, false);
+        disconnectDevice();
+    } else {
+        // ERROR
+        entry = tr("Read response error: %1 (code: 0x%2)").
+                arg(reply->errorString()).
+                arg(reply->error(), -1, 16);
+        emit infoMsg(entry, false);
+        disconnectDevice();
+    }
+}
+
+void Gripper::getCurrentVelocity()
+{
+    auto reply = qobject_cast<QModbusReply *>(sender());
+    if (!reply)
+        return;
+
+    QString entry;
+
+    if (reply->error() == QModbusDevice::NoError) {
+        const QModbusDataUnit unit = reply->result();
+        for (int i = 0, total = int(unit.valueCount()); i < total; ++i) {
+            entry = QString::number(unit.value(i), 16);
+            setCurrentVelocity(unit.value(i));
         }
     } else if (reply->error() == QModbusDevice::ProtocolError) {
         // ERROR PROTOCOL

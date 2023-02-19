@@ -23,29 +23,35 @@ public:
     Q_INVOKABLE void disconnectDevice();
 
     Q_PROPERTY(uint currentPosition READ currentPosition WRITE setCurrentPosition NOTIFY currentPositionChanged)
+    Q_PROPERTY(uint currentVelocity READ currentVelocity WRITE setCurrentVelocity NOTIFY currentVelocityChanged)
     Q_PROPERTY(bool isConnected READ isConnected WRITE setIsConnected NOTIFY isConnectedChanged)
 
     uint currentPosition() const;
+    uint currentVelocity() const;
     bool isConnected() const;
 
     void setCurrentPosition(uint currentPosition);
+    void setCurrentVelocity(uint currentVelocity);
     void setIsConnected(bool isConnected);
 
 signals:    
     QString recievedData ();
     void writeSuccess();    
     void currentPositionChanged(uint);
+    void currentVelocityChanged(uint);
     void isConnectedChanged(bool);
     void infoMsg(QString errorMsg, bool noError);
 
 private slots:
     void getCurrentPosition();
+    void getCurrentVelocity();
     void isDeviceConnected();
 
 private:
     void read();
 
     uint m_currentPosition = 0;
+    uint m_currentVelocity = 0;
     bool m_isConnected = false;
     QTimer *m_getInfoTimer = nullptr;
     QModbusReply *m_reply = nullptr;
