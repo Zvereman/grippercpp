@@ -5,6 +5,8 @@ Gripper::Gripper(QObject *parent)
 {
     m_modbusClient = new QModbusTcpClient(this);
     m_getInfoTimer = new QTimer(this);
+    setTitle(APP_NAME);
+    setVersion(APP_VERSION);
     connect(m_getInfoTimer, &QTimer::timeout, this, &Gripper::read);
     connect(m_modbusClient, &QModbusDevice::stateChanged, this, &Gripper::isDeviceConnected);
 }
@@ -24,16 +26,18 @@ void Gripper::read()
     if (!m_modbusClient)
         return;
 
+    // Getting current position
     if (auto *reply = m_modbusClient->sendReadRequest(QModbusDataUnit(QModbusDataUnit::HoldingRegisters,
-                                                                      18, numberOfEntries), 1)) {
+                                                                      CURRENT_POSITION_ADDRESS, numberOfEntries), DEVICE_ID)) {
         if (!reply->isFinished())
             connect(reply, &QModbusReply::finished, this, &Gripper::getCurrentPosition);
         else
             delete reply;
     }
 
+    // Getting current velocity
     if (auto *reply = m_modbusClient->sendReadRequest(QModbusDataUnit(QModbusDataUnit::HoldingRegisters,
-                                                                      17, numberOfEntries), 1)) {
+                                                                      VELOCITY_ADDRESS, numberOfEntries), DEVICE_ID)) {
         if (!reply->isFinished())
             connect(reply, &QModbusReply::finished, this, &Gripper::getCurrentVelocity);
         else
@@ -53,6 +57,24 @@ void Gripper::isDeviceConnected()
     }
 }
 
+void Gripper::setTitle(QString title)
+{
+    if (m_title == title)
+        return;
+
+    m_title = title;
+    emit titleChanged(m_title);
+}
+
+void Gripper::setVersion(QString version)
+{
+    if (m_version == version)
+        return;
+
+    m_version = version;
+    emit titleChanged(m_version);
+}
+
 void Gripper::setPosition(int position)
 {
     if (!m_modbusClient)
@@ -60,10 +82,10 @@ void Gripper::setPosition(int position)
 
     quint16 numberOfEntries = 1;
 
-    QModbusDataUnit writeUnit = QModbusDataUnit(QModbusDataUnit::HoldingRegisters, 16, numberOfEntries);
+    QModbusDataUnit writeUnit = QModbusDataUnit(QModbusDataUnit::HoldingRegisters, POSITION_ADDRESS, numberOfEntries);
     writeUnit.setValue(0, (qint16)position);
 
-    if (auto *reply = m_modbusClient->sendWriteRequest(writeUnit, 1)) {
+    if (auto *reply = m_modbusClient->sendWriteRequest(writeUnit, DEVICE_ID)) {
         if (!reply->isFinished()) {
             connect(reply, &QModbusReply::finished, this, [reply, this]() {
                 if (reply->error() == QModbusDevice::ProtocolError) {
@@ -94,10 +116,10 @@ void Gripper::setVelocity(int velocity)
 
     quint16 numberOfEntries = 1;
 
-    QModbusDataUnit writeUnit = QModbusDataUnit(QModbusDataUnit::HoldingRegisters, 17, numberOfEntries);
+    QModbusDataUnit writeUnit = QModbusDataUnit(QModbusDataUnit::HoldingRegisters, VELOCITY_ADDRESS, numberOfEntries);
     writeUnit.setValue(0, (qint16)velocity);
 
-    if (auto *reply = m_modbusClient->sendWriteRequest(writeUnit, 1)) {
+    if (auto *reply = m_modbusClient->sendWriteRequest(writeUnit, DEVICE_ID)) {
         if (!reply->isFinished()) {
             connect(reply, &QModbusReply::finished, this, [reply, this]() {
                 if (reply->error() == QModbusDevice::ProtocolError) {
@@ -129,8 +151,8 @@ void Gripper::connectDevice()
     if (m_modbusClient->state() != QModbusDevice::ConnectedState) {
         m_getInfoTimer->start(10);
 
-        m_modbusClient->setConnectionParameter(QModbusDevice::NetworkPortParameter, 5502);
-        m_modbusClient->setConnectionParameter(QModbusDevice::NetworkAddressParameter, "127.0.0.1");
+        m_modbusClient->setConnectionParameter(QModbusDevice::NetworkPortParameter, HOST_PORT);
+        m_modbusClient->setConnectionParameter(QModbusDevice::NetworkAddressParameter, HOST_ADDRESS);
 
         m_modbusClient->setTimeout(1000);
         m_modbusClient->setNumberOfRetries(3);
@@ -149,6 +171,16 @@ void Gripper::disconnectDevice()
         setIsConnected(false);
         emit infoMsg("Disconnected", true);
     }
+}
+
+QString Gripper::title() const
+{
+    return m_title;
+}
+
+QString Gripper::version() const
+{
+    return m_version;
 }
 
 uint Gripper::currentPosition() const
@@ -177,14 +209,14 @@ void Gripper::setCurrentVelocity(uint currentVelocity)
 {
     if (m_currentVelocity != currentVelocity)
         m_currentVelocity = currentVelocity;
-    emit currentVelocityChanged(currentVelocity);
+    emit currentVelocityChanged(m_currentVelocity);
 }
 
 void Gripper::setIsConnected(bool isConnected)
 {
     if (m_isConnected != isConnected)
         m_isConnected = isConnected;
-    emit isConnectedChanged(isConnected);
+    emit isConnectedChanged(m_isConnected);
 }
 
 void Gripper::getCurrentPosition()

@@ -3,7 +3,6 @@ import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 import QtCharts 2.15
 
-import gripper 1.0
 import "../common"
 
 Page {
@@ -30,10 +29,6 @@ Page {
         let tempVal = 0
         tempVal = currentPosition.second.value - currentPosition.first.value
         return tempVal.toFixed(0)
-    }
-
-    Gripper {
-        id: gripper
     }
 
     RowLayout {

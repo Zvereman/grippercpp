@@ -4,18 +4,24 @@ import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 import QtCharts 2.15
 
+import gripper 1.0
 import "devices"
 import "common"
 
 Window {
+    title: gripper.title + " " + gripper.version
+    visible: true
     width: Screen.width * 0.3
     height: Screen.height * 0.4
-    visible: true
 
     StackView {
         id: globalStackView
         anchors.fill: parent
         initialItem: gripperComponent
+    }
+
+    Gripper {
+        id: gripper
     }
 
     Component {
