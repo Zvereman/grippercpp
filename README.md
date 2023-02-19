@@ -7,7 +7,7 @@ The connection to the gripper occurs via the Modbus TCP protocol on the host **H
 The following functionality has been implemented:
 
 - Set gripper position
-- Set gripper speed
-- Get a graph of gripper position change over the last 10 seconds
+- Set gripper velocity
+- Get a chart of gripper position change over the last 10 seconds
 
 This is an open project and anyone can use it for their own purposes. :)
