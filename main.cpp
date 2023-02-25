@@ -3,8 +3,11 @@
 #include <QQuickView>
 #include <QQmlEngine>
 #include <QQmlContext>
+#include <Qt3DQuickExtras/Qt3DQuickWindow>
+#include <QQuickStyle>
 
 #include "gripper.h"
+#include "defines.h"
 
 int main(int argc, char *argv[])
 {
@@ -13,16 +16,17 @@ int main(int argc, char *argv[])
 #endif
     QApplication app(argc, argv);
 
+    QQuickStyle::setStyle("Imagine");
+
+    QQuickView view;
+
     qmlRegisterType<Gripper>("gripper", 1, 0, "Gripper");
 
-    QQmlApplicationEngine engine;
-    const QUrl url(QStringLiteral("qrc:/main.qml"));
-    QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
-                     &app, [url](QObject *obj, const QUrl &objUrl) {
-        if (!obj && url == objUrl)
-            QCoreApplication::exit(-1);
-    }, Qt::QueuedConnection);
-    engine.load(url);
+    view.resize(1024, 768);
+    view.setTitle(QString("%1 %2").arg(APP_NAME).arg(APP_VERSION));
+    view.setResizeMode(QQuickView::SizeRootObjectToView);
+    view.setSource(QUrl("qrc:/main.qml"));
+    view.show();
 
     return app.exec();
 

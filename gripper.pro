@@ -1,4 +1,4 @@
-QT += quick serialbus serialport charts qml
+QT += quick serialbus opengl serialport charts qml 3dcore 3drender 3dinput 3dlogic 3dquick 3dquickextras quickcontrols2
 CONFIG += c++11
 
 include(project.properties)
@@ -7,7 +7,8 @@ SOURCES += \
         gripper.cpp \
         main.cpp
 
-RESOURCES += qml.qrc
+RESOURCES += qml.qrc \
+    models.qrc
 
 VERSION = $${APP_VERSION}
 RC_ICONS = $${APP_ICON}

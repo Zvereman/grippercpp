@@ -31,8 +31,16 @@ ChartView {
         min.setSeconds(min.getSeconds() - 10)
         axisX.min = min
     }
+//// For Qt5
+//    ValueAxis {
+//        id: axisY
+//        tickCount: 9
+//        min: minVal
+//        max: maxPosVal
+//    }
 
-    ValueAxis {
+// For Qt6
+    ValuesAxis {
         id: axisY
         tickCount: 9
         min: minVal
@@ -51,7 +59,9 @@ ChartView {
         name: "position"
         axisX: axisX
         axisY: axisY
-        useOpenGL: chartView.openGL
+        // OpenGL is moved in Qt6
+        // Searching for ways to solve this
+        //useOpenGL: chartView.openGL
     }
 
     Timer {

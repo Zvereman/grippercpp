@@ -7,8 +7,7 @@ import gripper 1.0
 import "devices"
 import "common"
 
-Window {
-    title: gripper.title + " " + gripper.version
+Item {
     visible: true
     width: Screen.width * 0.3
     height: Screen.height * 0.4

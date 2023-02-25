@@ -5,5 +5,7 @@
         <file>common/GText.qml</file>
         <file>common/ScopeView.qml</file>
         <file>common/InfoPopup.qml</file>
+        <file>common/Gripper3DView.qml</file>
+        <file>common/CustomCameraController.qml</file>
     </qresource>
 </RCC>
