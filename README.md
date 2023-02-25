@@ -11,3 +11,9 @@ The following functionality has been implemented:
 - Get a chart of gripper position change over the last 10 seconds
 
 This is an open project and anyone can use it for their own purposes. :)
+
+
+V 1.2.3
+
+- Added 3D demonstration of gripper position
+- Moved to Qt6 for better performance
