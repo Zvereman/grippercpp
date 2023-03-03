@@ -1,11 +1,16 @@
 <RCC>
     <qresource prefix="/">
-        <file>main.qml</file>
-        <file>devices/GripperPage.qml</file>
         <file>common/GText.qml</file>
-        <file>common/ScopeView.qml</file>
         <file>common/InfoPopup.qml</file>
-        <file>common/Gripper3DView.qml</file>
         <file>common/CustomCameraController.qml</file>
+        <file>mainQt5.qml</file>
+        <file>mainQt6.qml</file>
+        <file>devices/GripperPageQt5.qml</file>
+        <file>common/Gripper3DViewQt5.qml</file>
+        <file>common/PositionChartQt5.qml</file>
+        <file>devices/GripperPageQt6.qml</file>
+        <file>common/PositionChartQt6.qml</file>
+        <file>common/Gripper3DViewQt6.qml</file>
+        <file>qtquickcontrols2.conf</file>
     </qresource>
 </RCC>

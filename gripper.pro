@@ -1,4 +1,4 @@
-QT += quick serialbus opengl serialport charts qml 3dcore 3drender 3dinput 3dlogic 3dquick 3dquickextras quickcontrols2
+QT += quick serialbus opengl serialport charts qml 3dcore 3drender 3dinput 3dlogic 3dquick 3dquickextras quickcontrols2 quick3d
 CONFIG += c++11
 
 include(project.properties)

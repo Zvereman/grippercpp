@@ -3,5 +3,9 @@
         <file>objects/body.obj</file>
         <file>objects/finger_left.obj</file>
         <file>objects/finger_right.obj</file>
+        <file>objects/body.mesh</file>
+        <file>objects/finger_left.mesh</file>
+        <file>objects/finger_right.mesh</file>
+        <file>objects/rotor.mesh</file>
     </qresource>
 </RCC>
