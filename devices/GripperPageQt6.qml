@@ -58,7 +58,7 @@ Page {
             ColumnLayout {
 
                 GText {
-                    text: qsTr("Last 10 sec gripper positions:")
+                    text: qsTr("Last gripper positions:")
                     horizontalAlignment: Text.AlignHCenter
                     Layout.fillWidth: true
                 }
