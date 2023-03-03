@@ -11,6 +11,7 @@ ApplicationWindow {
     visible: true
     width: 1024
     height: 768
+    title: gripper.title + " " + gripper.version
 
     StackView {
         id: globalStackView
