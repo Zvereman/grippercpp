@@ -13,7 +13,12 @@ The following functionality has been implemented:
 This is an open project and anyone can use it for their own purposes. :)
 
 
-V 1.2.3
+v 1.2.3
 
 - Added 3D demonstration of gripper position
 - Moved to Qt6 for better performance
+
+v 1.3.4
+
+- Added display of 3D models on Qt5
+- Project moved to Qt5 for better display of charts
