@@ -93,7 +93,7 @@ Entity {
     Entity {
         SceneLoader {
             id: bodyLoader
-            source: "qrc:/obj/g_body.obj"
+            source: "qrc:/objects/body.obj"
         }
 
         Transform {
@@ -108,7 +108,7 @@ Entity {
     Entity {
         SceneLoader {
             id: leftFingerLoader
-            source: "qrc:/obj/g_finger_left.obj"
+            source: "qrc:/objects/finger_left.obj"
         }
 
         Transform {
@@ -123,7 +123,7 @@ Entity {
     Entity {
         SceneLoader {
             id: rightFingerLoader
-            source: "qrc:/obj/g_finger_right.obj"
+            source: "qrc:/objects/finger_right.obj"
         }
 
         Transform {

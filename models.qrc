@@ -1,7 +1,7 @@
 <RCC>
     <qresource prefix="/">
-        <file>obj/g_body.obj</file>
-        <file>obj/g_finger_left.obj</file>
-        <file>obj/g_finger_right.obj</file>
+        <file>objects/body.obj</file>
+        <file>objects/finger_left.obj</file>
+        <file>objects/finger_right.obj</file>
     </qresource>
 </RCC>
